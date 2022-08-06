@@ -18,10 +18,18 @@ the multiple return values. However in Move, you cannot put references inside of
 [structs](./structs-and-resources.md). This required Move to support multiple return values. These
 multiple return values are all pushed on the stack at the bytecode level. At the source level, these
 multiple return values are represented using tuples.
+# 元组和单元
+Move 不完全支持元组，因为人们可能期望来自另一种语言的元组将它们作为一等值。但是，为了支持多个返回值，Move 具有类似元组的表达式。这些表达式在运行时不会产生具体的值（字节码中没有元组），因此它们非常有限：它们只能出现在表达式中（通常在函数的返回位置）；它们不能绑定到局部变量；它们不能存储在结构中；元组类型不能用于实例化泛型。
+
+类似地，unit() 是 Move 源语言创建的一种类型，以便基于表达式。单位值 () 不会产生任何运行时值。我们可以认为 unit() 是一个空元组，适用于元组的任何限制也适用于 unit。
+
+考虑到这些限制，在语言中使用元组可能会感觉很奇怪。但其他语言中元组最常见的用例之一是函数允许函数返回多个值。一些语言通过强制用户编写包含多个返回值的结构来解决这个问题。但是在 Move 中，您不能将引用放在结构中。这需要 Move 支持多个返回值。这些多个返回值都在字节码级别被压入堆栈。在源级别，这些多个返回值使用元组表示。
 
 ## Literals
 
 Tuples are created by a comma separated list of expressions inside of parentheses
+## 字面量
+元组由括号内的逗号分隔的表达式列表创建
 
 | Syntax          | Type                                                                         | Description                                                  |
 | --------------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------ |
@@ -35,7 +43,12 @@ disambiguation and do not carry any other special meaning.
 Sometimes, tuples with two elements are called "pairs" and tuples with three elements are called
 "triples."
 
+注意 (e) 没有类型 (e): (t)，换句话说，没有一个元素的元组。如果括号内只有一个元素，则括号仅用于消歧，不带有任何其他特殊含义。
+
+有时，具有两个元素的元组称为“对”，而具有三个元素的元组称为“三元组”。
+
 ### Examples
+### 例子
 
 ```move=
 address 0x42 {
@@ -71,6 +84,13 @@ The only operation that can be done on tuples currently is destructuring.
 For tuples of any size, they can be destructured in either a `let` binding or in an assignment.
 
 For example:
+## 运营
+目前可以对元组进行的唯一操作是解构。
+
+### 解构
+对于任何大小的元组，它们可以在 let 绑定或赋值中解构。
+
+例如：
 
 ```move=
 address 0x42 {
@@ -104,6 +124,7 @@ module example {
 ```
 
 For more details, see [Move Variables](./variables.md).
+有关更多详细信息，请参阅移动变量。
 
 ## Subtyping
 
@@ -111,6 +132,10 @@ Along with references, tuples are the only types that have subtyping in Move. Tu
 subtyping only in the sense that subtype with references (in a covariant way).
 
 For example
+## 子类型化
+除了引用，元组是唯一在 Move 中具有子类型的类型。元组只有在具有引用的子类型（以协变方式）的意义上才具有子类型。
+
+例如
 
 ```move=
 let x: &u64 = &0;
@@ -133,3 +158,5 @@ As mentioned above, tuple values don't really exist at runtime. And currently th
 into local variables because of this (but it is likely that this feature will come soon). As such,
 tuples can only be moved currently, as copying them would require putting them into a local variable
 first.
+## 所有权
+如上所述，元组值在运行时并不真正存在。由于这个原因，目前它们不能存储到局部变量中（但这个功能很可能很快就会出现）。因此，元组目前只能移动，因为复制它们需要先将它们放入局部变量中。

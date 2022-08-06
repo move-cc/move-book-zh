@@ -6,12 +6,18 @@ modifications via a write through that reference. Move's type system enforces an
 discipline that prevents reference errors.
 
 For more details on the rules of references, see [Structs and Resources](./structs-and-resources.md)
+# 参考
+Move 有两种类型的引用：不可变的 & 和可变的 &mut。不可变引用是只读的，不能修改基础值（或其任何字段）。可变引用允许通过写入该引用进行修改。 Move 的类型系统强制执行防止引用错误的所有权规则。
+
+有关引用规则的更多详细信息，请参阅结构和资源
 
 ## Reference Operators
 
 Move provides operators for creating and extending references as well as converting a mutable
 reference to an immutable one. Here and elsewhere, we use the notation `e: T` for "expression `e`
 has type `T`".
+## 引用运算符
+Move 提供了用于创建和扩展引用以及将可变引用转换为不可变引用的运算符。在这里和其他地方，我们使用符号 e: T 来表示“表达式 e 具有类型 T”。
 
 | Syntax      | Type                                                  | Description                                                    |
 | ----------- | ----------------------------------------------------- | -------------------------------------------------------------- |
@@ -24,6 +30,8 @@ has type `T`".
 The `&e.f` and `&mut e.f` operators can be used both to create a new reference into a struct or to
 extend an existing reference:
 
+&e.f 和 &mut e.f 运算符既可用于创建对结构的新引用，也可用于扩展现有引用：
+
 ```move
 let s = S { f: 10 };
 let f_ref1: &u64 = &s.f; // works
@@ -32,6 +40,8 @@ let f_ref2: &u64 = &s_ref.f // also works
 ```
 
 A reference expression with multiple fields works as long as both structs are in the same module:
+
+只要两个结构都在同一个模块中，具有多个字段的引用表达式就可以工作：
 
 ```move
 struct A { b: B }
@@ -42,6 +52,8 @@ fun f(a: &A): &u64 {
 ```
 
 Finally, note that references to references are not allowed:
+
+最后，请注意，不允许引用引用：
 
 ```move
 let x = 7;
@@ -59,6 +71,13 @@ and updates it with `v`.
 Both operations use the C-like `*` syntax. However, note that a read is an expression, whereas a
 write is a mutation that must occur on the left hand side of an equals.
 
+## 通过参考文献阅读和写作
+可以读取可变和不可变引用以生成引用值的副本。
+
+只能编写可变引用。写入 `*x = v` 会丢弃先前存储在 x 中的值并用 v 更新它。
+
+这两个操作都使用类 C 的 `*` 语法。但是，请注意，读是一个表达式，而写是一个突变，必须发生在等号的左侧。
+
 | Syntax     | Type                                | Description                         |
 | ---------- | ----------------------------------- | ----------------------------------- |
 | `*e`       | `T` where `e` is `&T` or `&mut T`   | Read the value pointed to by `e`    |
@@ -67,6 +86,8 @@ write is a mutation that must occur on the left hand side of an equals.
 In order for a reference to be read, the underlying type must have the
 [`copy` ability](./abilities.md) as reading the reference creates a new copy of the value. This rule
 prevents the copying of resource values:
+
+为了读取引用，基础类型必须具有复制能力，因为读取引用会创建值的新副本。此规则防止复制资源值：
 
 ```move=
 fun copy_resource_via_ref_bad(c: Coin) {
@@ -80,6 +101,7 @@ fun copy_resource_via_ref_bad(c: Coin) {
 Dually: in order for a reference to be written to, the underlying type must have the
 [`drop` ability](./abilities.md) as writing to the reference will discard (or "drop") the old value.
 This rule prevents the destruction of resource values:
+双重：为了写入引用，基础类型必须具有删除能力，因为写入引用将丢弃（或“删除”）旧值。此规则可防止破坏资源值：
 
 ```move=
 fun destroy_resource_via_ref_bad(ten_coins: Coin, c: Coin) {
@@ -91,6 +113,8 @@ fun destroy_resource_via_ref_bad(ten_coins: Coin, c: Coin) {
 ## `freeze` inference
 
 A mutable reference can be used in a context where an immutable reference is expected:
+## 冻结推理
+可变引用可以在需要不可变引用的上下文中使用：
 
 ```move
 let x = 7;
@@ -99,6 +123,7 @@ let y: &mut u64 = &mut x;
 
 This works because the under the hood, the compiler inserts `freeze` instructions where they are
 needed. Here are a few more examples of `freeze` inference in action:
+这是因为在底层，编译器会在需要的地方插入冻结指令。以下是冻结推理的更多示例：
 
 ```move=
 fun takes_immut_returns_immut(x: &u64): &u64 { x }
@@ -132,6 +157,8 @@ With this `freeze` inference, the Move type checker can view `&mut T` as a subty
 above, this means that anywhere for any expression where a `&T` value is used, a `&mut T` value can
 also be used. This terminology is used in error messages to concisely indicate that a `&mut T` was
 needed where a `&T` was supplied. For example
+### 子类型化
+通过这种冻结推断，Move 类型检查器可以将 &mut T 视为 &T 的子类型。如上所示，这意味着对于任何使用 &T 值的表达式，也可以使用 &mut T 值。此术语用于错误消息中，以简明扼要地表明在提供 &T 的情况下需要 &mut T。例如
 
 ```move=
 address 0x42 {
@@ -155,6 +182,7 @@ module example {
 ```
 
 will yield the following error messages
+将产生以下错误消息
 
 ```text
 error:
@@ -188,10 +216,14 @@ error:
 
 The only other types currently that has subtyping are [tuples](./tuples.md)
 
+当前唯一具有子类型的其他类型是元组
+
 ## Ownership
 
 Both mutable and immutable references can always be copied and extended _even if there are existing
 copies or extensions of the same reference_:
+## 所有权
+即使存在相同引用的现有副本或扩展，可变引用和不可变引用也始终可以被复制和扩展：
 
 ```move
 fun reference_copies(s: &mut S) {
@@ -206,6 +238,8 @@ This might be surprising for programmers familiar with Rust's ownership system, 
 the code above. Move's type system is more permissive in its treatment of
 [copies](./variables.md#move-and-copy), but equally strict in ensuring unique ownership of mutable
 references before writes.
+
+对于熟悉 Rust 所有权系统的程序员来说，这可能会令人惊讶，因为他们会拒绝上面的代码。 Move 的类型系统在处理副本方面更加宽松，但在写入前确保可变引用的唯一所有权方面同样严格。
 
 ### References Cannot Be Stored
 
@@ -233,3 +267,11 @@ safety, and this aspect of the type system would also have to be extended to sup
 references inside of structs. In short, Move's type system (particularly the aspects around
 reference safety) would have to expand to support stored references. But it is something we are
 keeping an eye on as the language evolves.
+### 无法存储引用
+引用和元组是唯一不能存储为结构的字段值的类型，这也意味着它们不能存在于全局存储中。当 Move 程序终止时，程序执行期间创建的所有引用都将被销毁；它们完全是短暂的。这个不变量对于没有存储能力的类型的值也是正确的，但请注意，引用和元组更进一步，因为从一开始就不允许在结构中。
+
+这是 Move 和 Rust 之间的另一个区别，后者允许将引用存储在结构内。
+
+目前，Move 无法支持这一点，因为引用无法序列化，但每个 Move 值都必须是可序列化的。这个需求来自于 Move 的持久化全局存储，它需要序列化值以在程序执行中持久化它们。结构可以写入全局存储，因此它们必须是可序列化的。
+
+可以想象一种更奇特、更有表现力的类型系统，它允许将引用存储在结构中，并禁止这些结构存在于全局存储中。我们也许可以允许不具备存储能力的结构内部的引用，但这并不能完全解决问题：Move 有一个相当复杂的系统来跟踪静态引用安全，并且类型系统的这方面也必须扩展支持在结构内存储引用。简而言之，Move 的类型系统（尤其是与引用安全相关的方面）必须扩展以支持存储的引用。但随着语言的发展，我们一直在关注这一点。
