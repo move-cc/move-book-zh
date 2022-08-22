@@ -30,3 +30,17 @@ git clone https://github.com/move-cc/move-book-zh.git
 cd move-book-zh
 mdbook serve --open
 ```
+
+## 关于本仓库
+
+Move 语言官方团队已经批准将《Move Book 中文版》放在原仓库中的 `move/language/documentation/book/translations/move-book-zh/` 目录里。
+
+详细工作流程见：
+
+- [Provide Chinese Move Book #353](https://github.com/move-language/move/issues/353)
+- [migrate Move Book of Chinese version from MoveCC #359](https://github.com/move-language/move/pull/359)
+- [migrate Move Book of Chinese version from MoveDao #380](https://github.com/move-language/move/pull/380)
+
+如果想要维护《Move Book 中文版》的内容，贡献你的一份力量，请直接在官方仓库提交 PR 或 issue。
+
+现在，本仓库只为在网页里方便浏览《Move Book 中文版》，如果有建议或想法可以提 issue。
