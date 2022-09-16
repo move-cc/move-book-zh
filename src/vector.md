@@ -1,13 +1,13 @@
-# 向量（Vector）
+# 向量
 
 `vector<T>` 是 Move 提供的唯一原始集合类型。`vector<T>` 是类型为 `T` 的同构集合，可以通过从"末端"推入/弹出（出栈/入栈，译者注）值来增长或缩小。
 *（与 Rust 一样，向量（vector）是一种可以存放任何类型的可变大小的容器，也可称为[动态数组](https://en.wikipedia.org/wiki/Dynamic_array)，与 Python 中的[列表（list）](https://computersciencewiki.org/index.php/Lists)不同，译者注）*
 
 `vector<T>` 可以用任何类型 `T` 实例化。例如，`vector<u64>`、`vector<address>`、`vector<0x42::MyModuel::MyResource>` 和 `vector<vector<u8>>` 都是有效的向量类型。
 
-## 字面量（Literals）
+## 字面量
 
-### 通用 `vector` 字面量（General `vector` Literals）
+### 通用 `vector` 字面量
 
 任何类型的向量都可以通过 `vector` 字面量创建。
 
@@ -23,7 +23,7 @@ vector<T>[]: vector<T>
 vector<T>[e1, ..., en]: vector<T>
 ```
 
-#### 向量字面量示例（Example Vector Literals）
+#### 向量字面量示例
 
 ```move
 (vector[]: vector<bool>);
@@ -32,13 +32,13 @@ vector<T>[e1, ..., en]: vector<T>
 (vector<address>[@0x42, @0x100]: vector<address>);
 ```
 
-### `vector<u8>` 字面量（`vector<u8>` literals）
+### `vector<u8>` 字面量
 
 Move 中向量的一个常见用例是表示“字节数组”，用 `vector<u8>` 表示。这些值通常用于加密目的，例如公钥或哈希结果。这些值非常常见，以至于提供了特定的语法以使值更具可读性，而不是必须使用 `vector[]`，其中每个单独的 `u8` 值都以数字形式指定。
 
 目前支持两种类型的 `vector<u8>` 字面量，*字节字符串*和*十六进制字符串*。
 
-#### 字节字符串（Byte Strings）
+#### 字节字符串
 
 字节字符串是带引号的字符串字面量，以 `b` 为前缀，例如，`b"Hello!\n"`。
 
@@ -54,13 +54,13 @@ Move 中向量的一个常见用例是表示“字节数组”，用 `vector<u8>
 | `\"`     | 引号                                        |
 | `\xHH`   | 十六进制进制转义，插入十六进制字节序列 `HH` |
 
-#### 十六进制字符串（Hex Strings）
+#### 十六进制字符串
 
 十六进制字符串是以 `x` 为前缀的带引号的字符串字面量，例如，`x"48656C6C6F210A"`。
 
 每个字节对，范围从 `00` 到 `FF` 都被解析为十六进制编码的 `u8` 值。所以每个字节对对应于结果 `vector<u8>` 的单个条目。
 
-#### 字符串字面量示例（Example String Literals）
+#### 字符串字面量示例
 
 ```move
 script {
@@ -77,7 +77,7 @@ script {
 }
 ```
 
-## 操作 (Operations)
+## 操作
 
 `vector` 通过 Move 标准库里的 `std::vector` 模块支持以下操作：
 
@@ -100,7 +100,7 @@ script {
 
 随着时间的推移可能会增加更多操作。
 
-## 示例（Example）
+## 示例
 
 ```move
 use std::vector;
@@ -115,7 +115,7 @@ assert!(vector::pop_back(&mut v) == 6, 42);
 assert!(vector::pop_back(&mut v) == 5, 42);
 ```
 
-## 销毁和复制 `vector`（Destroying and copying `vector`s）
+## 销毁和复制 `vector`
 
 `vector<T>` 的某些行为取决于元素类型 `T` 的能力（ability），例如：如果向量中包含不具有 `drop` 能力的元素，那么不能像上面例子中的 `v` 一样隐式丢弃 —— 它们必须用 `vector::destroy_empty` 显式销毁。
 
@@ -147,6 +147,6 @@ let y = copy x; // 没有 copy 将导致编译器错误！
 
 有关更多详细信息，请参阅[类型能力](./abilities.md)和[泛型](./generics.md)部分。
 
-## 所有权（Ownership）
+## 所有权
 
 [如上所述](#销毁和复制-vectordestroying-and-copying-vector)，`vector` 值只有在元素值可以复制的时候才能复制。在这种情况下，复制必须通过显式 [`copy`](./variables.md#移动和复制move-and-copy) 或者[解引用 `*`](./references.md#引用运算符reference-operators)。

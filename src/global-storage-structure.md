@@ -1,4 +1,4 @@
-# 全局存储 —— 结构（Global Storage - Structure）
+# 全局存储 —— 结构
 
 Move 程序的目的是[读取和写入](./global-storage-operators.md)树形的持久全局存储。程序不能访问文件系统、网络或任何此树以外的数据。
 
