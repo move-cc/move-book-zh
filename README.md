@@ -48,13 +48,13 @@ Move 语言官方团队已经批准将《Move Book 中文版》放在原仓库�
 ## 进度
 
 - [ ] Introduction
-- [ ] 1. Modules and Scripts
+- [x] 1. Modules and Scripts
 - [ ] 2. Move Tutorial
 - [ ] 3. Integers
 - [ ] 4. Bool
-- [ ] 5. Address
+- [x] 5. Address
 - [x] 6. Vector
-- [ ] 7. Signer
+- [x] 7. Signer
 - [ ] 8. References
 - [ ] 9. Tuples and Unit
 - [ ] 10. Local Variables and Scopes
@@ -71,7 +71,7 @@ Move 语言官方团队已经批准将《Move Book 中文版》放在原仓库�
 - [ ] 21. Friends
 - [ ] 22. Packages
 - [ ] 23. Unit Tests
-- [ ] 24. Global Storage Structure
+- [x] 24. Global Storage Structure
 - [ ] 25. Global Storage Operators
 - [ ] 26. Standard Library
-- [ ] 27. Coding Conventions
+- [x] 27. Coding Conventions
