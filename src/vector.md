@@ -168,6 +168,8 @@ fun destroy_any_vector<T>(vec: vector<T>) {
 }
 ```
 
+But no error would occur for dropping a vector that contains elements with `drop`:
+
 但是删除包含带有 `drop` 能力的元素的向量不会发生错误：
 
 ```move
