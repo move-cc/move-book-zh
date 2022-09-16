@@ -53,7 +53,7 @@ Move 语言官方团队已经批准将《Move Book 中文版》放在原仓库�
 - [ ] 3. Integers
 - [ ] 4. Bool
 - [ ] 5. Address
-- [ ] 6. Vector
+- [x] 6. Vector
 - [ ] 7. Signer
 - [ ] 8. References
 - [ ] 9. Tuples and Unit
