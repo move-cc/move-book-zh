@@ -44,3 +44,34 @@ Move 语言官方团队已经批准将《Move Book 中文版》放在原仓库�
 如果想要维护《Move Book 中文版》的内容，贡献你的一份力量，请直接在官方仓库提交 PR 或 issue。
 
 现在，本仓库只为在网页里方便浏览《Move Book 中文版》，如果有建议或想法可以提 issue。
+
+## 进度
+
+- [ ] Introduction
+- [ ] 1. Modules and Scripts
+- [ ] 2. Move Tutorial
+- [ ] 3. Integers
+- [ ] 4. Bool
+- [ ] 5. Address
+- [ ] 6. Vector
+- [ ] 7. Signer
+- [ ] 8. References
+- [ ] 9. Tuples and Unit
+- [ ] 10. Local Variables and Scopes
+- [ ] 11. Equality
+- [ ] 12. Abort and Assert
+- [ ] 13. Conditionals
+- [ ] 14. While and Loop
+- [ ] 15. Functions
+- [ ] 16. Structs and Resources
+- [ ] 17. Constants
+- [ ] 18. Generics
+- [ ] 19. Type Abilities
+- [ ] 20. Uses and Aliases
+- [ ] 21. Friends
+- [ ] 22. Packages
+- [ ] 23. Unit Tests
+- [ ] 24. Global Storage Structure
+- [ ] 25. Global Storage Operators
+- [ ] 26. Standard Library
+- [ ] 27. Coding Conventions
