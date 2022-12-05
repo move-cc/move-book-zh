@@ -56,16 +56,16 @@ Move 语言官方团队已经批准将《Move Book 中文版》放在原仓库�
 - [x] 6. Vector
 - [x] 7. Signer
 - [ ] 8. References
-- [ ] 9. Tuples and Unit
+- [x] 9. Tuples and Unit
 - [ ] 10. Local Variables and Scopes
 - [ ] 11. Equality
 - [ ] 12. Abort and Assert
 - [ ] 13. Conditionals
 - [ ] 14. While and Loop
 - [ ] 15. Functions
-- [ ] 16. Structs and Resources
+- [x] 16. Structs and Resources
 - [ ] 17. Constants
-- [ ] 18. Generics
+- [x] 18. Generics
 - [ ] 19. Type Abilities
 - [ ] 20. Uses and Aliases
 - [ ] 21. Friends
